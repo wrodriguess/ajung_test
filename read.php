@@ -1,9 +1,16 @@
 <?php
     require_once 'Companies.php';
-    $c = new Companies();
+    $company = new Companies();
     
     if(isset($_GET['id']) && !empty($_GET['id'])){
-        $company = $c->getCompanyById($_GET['id']);
+        $id = addslashes($_GET['id']);
+        
+        if(!$company->idExists($id)){
+            header("Location: index.php");
+            exit;
+        }
+        
+        $record = $company->getCompanyById($id);
     }else{
         header("Location: index.php");
         exit;
@@ -19,6 +26,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/style.css">                
 	<title>Read</title>
     </head>
     <body>
@@ -35,90 +43,89 @@
             </div>
         </nav>
         <div class="container">
-            <p class="h1" align='center'>READ COMPANY</p>
+            <p class="h1" align='center'>Dados da empresa</p>
             
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Id:</strong>
-                        <?= $company['id']; ?>
+                        <?= $record['id']; ?>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Contato:</strong>
-                        <?= $company['contato']; ?>
+                        <?= $record['contato']; ?>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>E-mail:</strong>
-                        <?= $company['email']; ?>
+                        <?= $record['email']; ?>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Telefone:</strong>
-                        <?= $company['telefone']; ?>
+                        <?= $record['telefone']; ?>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Empresa (Razão social):</strong>
-                        <?= $company['empresa']; ?>
+                        <?= $record['empresa']; ?>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>cnpj:</strong>
-                        <?= $company['cnpj']; ?>
+                        <?= $record['cnpj']; ?>
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Endereço:</strong>
-                        <?= $company['logradouro'].", ".$company['numero']." (".$company['bairro'].") "; ?>
+                        <?= $record['logradouro'].", ".$record['numero']." (".$record['bairro'].") "; ?>
                     </div>
                 </div>            
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Cidade:</strong>
-                        <?= $company['cidade']." - ".$company['estado']; ?>
+                        <?= $record['cidade']." - ".$record['estado']; ?>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Cep:</strong>
-                        <?= $company['cep']; ?>
+                        <?= $record['cep']; ?>
                     </div>
                 </div>                   
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Data de Registro:</strong>
-                        <?= date('d/m/Y H:i', strtotime($company['data_registro'])); ?>
+                        <?= date('d/m/Y H:i', strtotime($record['data_registro'])); ?>
                     </div>
                 </div> 
             </div>
             
             <div class="row">
                 <div class="col-3 col-sm-1 col-md-1">
-                    <a href="update_form.php?id=<?= $company['id']; ?>" class="btn btn-primary">
+                    <a href="update_form.php?id=<?= $record['id']; ?>" class="btn btn-primary">
                         Editar
                     </a>
                 </div>
                 <div class="col-3 col-sm-1 col-md-1">
-                    <a href="index.php" class="btn btn-danger">
+                    <a href="delete.php?id=<?= $record['id']; ?>" class="btn btn-danger">
+                        Excluir
+                    </a>
+                </div>
+                <div class="col-3 col-sm-1 col-md-1">
+                    <a href="index.php" class="btn btn-dark">
                         Voltar
                     </a>
-                </div>      
-            </div>             
-            
-            
-            
-            
-            
-            
+                </div>
+            </div>                
         </div>
     </body>
 </html>

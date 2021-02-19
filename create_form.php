@@ -1,20 +1,21 @@
 <?php
     require_once 'Companies.php';
-    $c = new Companies();
+    $company = new Companies();
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
 	<meta name="viewport" content="width=devide-width, initial-scale=1, shrink-to-fit=no">
-        <script src="script.js"></script>
+        <script src="assets/script.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="	sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<title>Creat</title>
+        <link rel="stylesheet" type="text/css" href="assets/style.css">
+	<title>Create</title>
     </head>
-    <body onload="loadMessages()">
+    <body onload="hideMessages()">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a href="#" class="navbar-brand"> < /> </a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
@@ -31,7 +32,7 @@
             <p class="h1" align='center'>Cadastrar Empresa</p>
             <form action="create.php" method="POST">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label for="contato"><b>Contato</b></label>
                             <input type="text" name="contato" class="form-control" id="contato" required="" onblur="validateContato()">
@@ -43,7 +44,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label for="email"><b>E-mail</b></label>
                             <input type="email" name="email" class="form-control" id="email" required="" onblur="validateEmail()">
@@ -52,7 +53,7 @@
                             </div>
                         </div>
                     </div>    
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label for="telefone"><b>Telefone</b></label>
                             <input type="text" name="telefone" class="form-control" id="telefone" required="" onblur="validateTelefone()">
@@ -64,7 +65,7 @@
                 </div>   
                 
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label for="empresa"><b>Empresa</b> (Razão Social)</label>
                             <input type="text" name="empresa" class="form-control" id="empresa" required="" onblur="validateEmpresa()">
@@ -73,7 +74,7 @@
                             </div>
                         </div>
                     </div> 
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                             <label for="cnpj"><b>CNPJ</b></label>
                             <input type="text" name="cnpj" class="form-control" id="cnpj" required="" onblur="validateCnpj()">
@@ -85,7 +86,7 @@
                 </div> 
                 
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-12 col-sm-12 col-md-6">
                         <div class="form-group">
                         <label for="cep"><b>CEP</b></label>
                         <div class="input-group">
@@ -109,7 +110,7 @@
                 </div>                  
 
                 <div class="row">
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-12 col-sm-12 col-md-4">
                         <div class="form-group">
                             <label for="logradouro"><b>Logradouro</b></label>
                             <input type="text" name="logradouro" class="form-control" id="logradouro" required="" onblur="validateLogradouro()">
@@ -118,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-12 col-sm-12 col-md-4">
                         <div class="form-group">
                             <label for="numero"><b>Número</b></label>
                             <input type="text" name="numero" class="form-control" id="numero" required="" onblur="validateNumero()">
@@ -127,7 +128,7 @@
                             </div>
                         </div>
                     </div>                     
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-12 col-sm-12 col-md-4">
                         <div class="form-group">
                             <label for="bairro"><b>Bairro</b></label>
                             <input type="text" name="bairro" class="form-control" id="bairro" required="" onblur="validateBairro()">
@@ -139,7 +140,7 @@
                 </div>   
 
                 <div class="row">    
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-12 col-sm-12 col-md-4">
                         <div class="form-group">
                             <label for="cidade"><b>Cidade</b></label>
                             <input type="text" name="cidade" class="form-control" id="cidade" required="" onblur="validateCidade()">
@@ -148,7 +149,7 @@
                             </div>
                         </div>
                     </div>  
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-12 col-sm-12 col-md-4">
                         <div class="form-group">
                             <label for="estado"><b>Estado</b></label>
                             <input type="text" name="estado" class="form-control" id="estado" required="" onblur="validateEstado()">
@@ -157,11 +158,19 @@
                             </div>
                         </div>
                     </div>                      
-                </div>   
-
-                <input type="submit" class="btn btn-success" value="Cadastrar">
+                </div>  
+                
+                <div class="row">
+                    <div class="col-4 col-sm-2 col-md-2 col-lg-2">
+                        <input type="submit" class="btn btn-primary" value="Cadastrar">
+                    </div>
+                    <div class="col-2 col-sm-1 col-md-1 col-lg-1">
+                        <a href="index.php" class="btn btn-dark">
+                            Voltar
+                        </a>
+                    </div>      
+                </div>  
             </form>
-
         </div>
     </body>
 </html>

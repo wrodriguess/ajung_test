@@ -2,17 +2,6 @@
 
 class Companies {
     private $pdo;
-    private $contato;
-    private $email;
-    private $telefone;
-    private $empresa;
-    private $cnpj;
-    private $cep;
-    private $logradouro;
-    private $bairro;
-    private $numero;
-    private $cidade;
-    private $estado;
     
     function __construct() {
         try{
@@ -23,6 +12,10 @@ class Companies {
     }
     
     function create($contato, $email, $telefone, $empresa, $cnpj, $cep, $logradouro, $bairro, $numero, $cidade, $estado){
+        if($this->vaiidateCnpj($cnpj) == false){
+            return false;
+        }
+        
         $sql = "INSERT INTO companies SET contato = :contato, email = :email, telefone = :telefone, empresa = :empresa, cnpj = :cnpj, cep = :cep, logradouro = :logradouro, bairro = :bairro, numero = :numero, cidade = :cidade, estado = :estado, data_registro = NOW()";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":contato", $contato);
@@ -37,7 +30,40 @@ class Companies {
         $sql->bindValue(":cidade", $cidade);
         $sql->bindValue(":estado", $estado);
         $sql->execute();
+        
+        if($sql->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
+    
+    function vaiidateCnpj($cnpj){
+	$cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
+
+	if ((strlen($cnpj) != 14) || (preg_match('/(\d)\1{13}/', $cnpj))){
+            return false;
+        }
+
+        for ($i = 0, $j = 5, $sum = 0; $i < 12; $i++){
+            $sum += $cnpj[$i] * $j;
+            $j = ($j == 2) ? 9 : $j - 1;
+	}
+
+	$rest = $sum % 11;
+
+	if ($cnpj[12] != ($rest < 2 ? 0 : 11 - $rest)){   
+            return false;
+        }
+	
+	for ($i = 0, $j = 6, $sum = 0; $i < 13; $i++){
+            $sum += $cnpj[$i] * $j;
+            $j = ($j == 2) ? 9 : $j - 1;
+	}
+
+	$rest = $sum % 11;
+	return $cnpj[13] == ($rest < 2 ? 0 : 11 - $rest);
+    }      
     
     function getAll(){
         $sql = "SELECT * FROM companies";
@@ -52,7 +78,7 @@ class Companies {
         $sql->bindValue(":id", $id);
         $sql->execute();
         
-        if($sql->rowCount()){
+        if($sql->rowCount() > 0){
             return true;
         }else{
             return false;
@@ -69,6 +95,10 @@ class Companies {
     }
     
     function update($id, $contato, $email, $telefone, $empresa, $cnpj, $cep, $logradouro, $bairro, $numero, $cidade, $estado){
+        if($this->vaiidateCnpj($cnpj) == false){
+            return false;
+        }
+        
         $sql = "UPDATE companies SET contato = :contato, email = :email, telefone = :telefone, empresa = :empresa, cnpj = :cnpj, cep = :cep, logradouro = :logradouro, bairro = :bairro, numero = :numero, cidade = :cidade, estado = :estado WHERE id = :id LIMIT 1";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":id", $id);
@@ -84,6 +114,12 @@ class Companies {
         $sql->bindValue(":cidade", $cidade);
         $sql->bindValue(":estado", $estado);
         $sql->execute();
+        
+        if($sql->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
     
     function search($buscar){
@@ -101,4 +137,19 @@ class Companies {
         $sql = $sql->fetch();
         return $sql;
     }
+    
+    function idExists($id){
+        $sql = "SELECT * FROM companies WHERE id = :id";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(":id", addslashes($id));
+        $sql->execute();
+        
+        if($sql->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+
 }

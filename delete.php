@@ -1,6 +1,6 @@
 <?php
     require_once 'Companies.php';
-    $c = new Companies();            
+    $company = new Companies();            
 ?>
            
 <html>
@@ -12,9 +12,9 @@
         <?php      
             if(isset($_GET['id']) && !empty($_GET['id'])){
                 $id = addslashes($_GET['id']);
-                $retorno = $c->delete($id);
+                $response = $company->delete($id);
             }
-            if($retorno){
+            if($response){
                 ?>
                     <script>
                         swal("Registro removido!",{
@@ -26,7 +26,7 @@
             }else{
                 ?>
                     <script>
-                        swal("Erro, registro não removido!",{
+                        swal("Registro não encontrado!",{
                             icon: "error",
                             button: false,
                         });
